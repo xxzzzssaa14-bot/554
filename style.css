@@ -1,0 +1,249 @@
+/* إعدادات عامة */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f0f3f5;
+    color: #333;
+}
+
+/* الشاشات */
+.screen {
+    display: none;
+    height: 100vh;
+    flex-direction: column;
+}
+.screen.active {
+    display: flex;
+}
+
+/* شاشة تسجيل الدخول */
+#login-screen {
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #2c3e50, #3498db);
+}
+.login-box {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    width: 90%;
+    max-width: 400px;
+}
+.login-box h2 { margin-bottom: 25px; color: #2c3e50; font-size: 22px; }
+
+/* الرأس والمحتوى */
+header {
+    background: linear-gradient(to bottom, #34495e, #2c3e50); 
+    color: white;
+    text-align: center; 
+    padding: 15px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    z-index: 10;
+    position: relative;
+}
+main {
+    flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 80px;
+}
+
+/* حالة الاتصال بالإنترنت */
+.network-status {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+}
+.online { background-color: #27ae60; }
+.offline { background-color: #e74c3c; }
+.syncing { background-color: #f39c12; }
+
+/* رسالة التثبيت */
+#install-prompt {
+    display: none;
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #2c3e50;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 10px;
+    z-index: 2000;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    text-align: center;
+    width: 90%;
+    max-width: 350px;
+}
+#install-prompt button { margin-top: 10px; }
+
+/* التبويبات السفلية */
+.bottom-nav {
+    position: fixed; bottom: 0; width: 100%;
+    background: white; display: flex;
+    box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    overflow: hidden;
+}
+.nav-btn {
+    flex: 1; padding: 15px 0; border: none;
+    background: white; font-size: 16px; font-weight: bold;
+    color: #95a5a6; cursor: pointer;
+    transition: all 0.3s;
+    border-radius: 0;
+    box-shadow: none;
+}
+.nav-btn.active {
+    color: #2980b9; 
+    background-color: #f7f9fa;
+    border-top: 4px solid #2980b9;
+}
+
+/* المحتوى داخل التبويبات */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* الأزرار ذات التأثير ثلاثي الأبعاد 3D */
+button { 
+    cursor: pointer; 
+    border-radius: 8px; 
+    border: none; 
+    padding: 12px 15px; 
+    font-weight: bold; 
+    font-size: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15), inset 0 -3px 0 rgba(0,0,0,0.15);
+    transition: transform 0.1s, box-shadow 0.1s;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+button:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15), inset 0 -1px 0 rgba(0,0,0,0.15);
+}
+
+.btn-primary { background: linear-gradient(to bottom, #3498db, #2980b9); color: white; width: 100%; margin-bottom: 10px;}
+.btn-secondary { background: linear-gradient(to bottom, #bdc3c7, #95a5a6); color: white; }
+.btn-success { background: linear-gradient(to bottom, #2ecc71, #27ae60); color: white; width: 100%; margin-bottom: 10px;}
+.btn-danger { background: linear-gradient(to bottom, #e74c3c, #c0392b); color: white; }
+.btn-warning { background: linear-gradient(to bottom, #f39c12, #e67e22); color: white; width: 100%; margin-bottom: 5px;}
+.btn-small { padding: 8px 12px; font-size: 13px; margin-bottom: 0; width: auto;}
+
+/* حقول الإدخال ثلاثية الأبعاد */
+input, select {
+    width: 100%; padding: 12px; margin-bottom: 15px;
+    border: 1px solid #bdc3c7; border-radius: 8px;
+    box-shadow: inset 0 3px 5px rgba(0,0,0,0.08), 0 1px 0 rgba(255,255,255,1);
+    background-color: #fafafa;
+    font-size: 15px;
+    transition: all 0.2s ease;
+}
+input:focus, select:focus {
+    outline: none; 
+    border-color: #3498db;
+    background-color: #fff;
+    box-shadow: inset 0 3px 5px rgba(0,0,0,0.05), 0 0 8px rgba(52, 152, 219, 0.4);
+}
+#search-inventory, #search-customer {
+    margin-top: 10px;
+    border-color: #3498db;
+}
+
+.input-group { display: flex; align-items: stretch; margin-bottom: 15px;}
+.country-code {
+    background: linear-gradient(to bottom, #f2f4f5, #e0e5e8);
+    padding: 12px; border: 1px solid #bdc3c7;
+    border-left: none; border-radius: 0 8px 8px 0; 
+    direction: ltr; font-weight: bold; color: #555;
+    box-shadow: inset 0 2px 3px rgba(255,255,255,0.8);
+}
+
+/* المخزون */
+.inventory-selectors { display: flex; gap: 10px; margin-bottom: 15px; }
+.inventory-selectors button { 
+    flex: 1; 
+    background: linear-gradient(to bottom, #ffffff, #eef1f3); 
+    color: #333; 
+    border: 1px solid #dcdde1;
+}
+.inventory-selectors button.active { 
+    background: linear-gradient(to bottom, #34495e, #2c3e50); 
+    color: white; 
+    border: 1px solid #2c3e50;
+}
+
+/* القوائم والبطاقات ثلاثية الأبعاد */
+.list-container { display: flex; flex-direction: column; gap: 12px; }
+.card {
+    background: white; padding: 15px; border-radius: 12px;
+    box-shadow: 0 5px 12px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04);
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 4px solid #ecf0f1;
+    transition: transform 0.2s;
+}
+.card:active {
+    transform: scale(0.98);
+}
+.card-info h4 { margin-bottom: 8px; color: #2c3e50; font-size: 17px;}
+.card-info p { font-size: 14px; color: #7f8c8d; margin-bottom: 3px;}
+.card-actions { display: flex; gap: 5px; flex-direction: column;}
+
+/* تفاصيل الزبون */
+.balance-card {
+    background: linear-gradient(to bottom, #ffffff, #e8f4f8); 
+    padding: 20px; border-radius: 12px;
+    text-align: center; margin: 15px 0; 
+    border: 1px solid #bce0ee;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+    border-bottom: 4px solid #3498db;
+}
+.balance-card h3 { color: #d35400; font-size: 26px; direction: ltr; margin-top: 10px; text-shadow: 1px 1px 0 rgba(255,255,255,0.8);}
+.action-buttons { display: flex; gap: 10px; }
+
+/* النوافذ المنبثقة (Modals) */
+.modal {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 1000;
+    backdrop-filter: blur(3px);
+}
+.modal.active { display: flex; }
+.modal-content {
+    background: white; padding: 25px; border-radius: 15px;
+    width: 92%; max-width: 400px; max-height: 90vh; overflow-y: auto;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    border: 1px solid #fff;
+}
+.modal-large { max-width: 600px; }
+.modal-content h3 { margin-bottom: 20px; text-align: center; border-bottom: 2px solid #f1f2f6; padding-bottom: 12px; color: #2c3e50;}
+.modal-actions { display: flex; gap: 10px; margin-top: 5px; }
+.modal-actions button { margin-bottom: 0; flex: 1; }
+
+.totals-box {
+    background: linear-gradient(to bottom, #ffffff, #f9f9f9); 
+    padding: 15px; margin: 15px 0; border-radius: 10px; 
+    text-align: left; direction: ltr;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.03);
+    border: 1px solid #eee;
+}
+.totals-box p { font-weight: bold; color: #2c3e50; margin-bottom: 5px; font-size: 15px;}
+.totals-box span { color: #e67e22; font-size: 18px;}
+
+.rent-item-row {
+    display: flex; gap: 8px; margin-bottom: 12px; align-items: stretch;
+    background: #f8f9fa; padding: 12px; border-radius: 10px;
+    border: 1px solid #e1e8ed;
+    box-shadow: inset 0 2px 3px rgba(0,0,0,0.02);
+}
+.rent-item-row select { margin-bottom: 0; flex: 1; }
+
+.rent-item-dropdown div:hover {
+    background-color: #f0f3f5;
+}

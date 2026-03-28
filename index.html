@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام تأجير - محلات كريم</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+    <div id="install-prompt">
+        <p>تثبيت التطبيق على جهازك للوصول السريع والعمل بدون إنترنت</p>
+        <button onclick="installApp()" class="btn-primary">تثبيت التطبيق</button>
+        <button onclick="closeInstallPrompt()" class="btn-secondary btn-small">إغلاق</button>
+    </div>
+
+    <div id="login-screen" class="screen active">
+        <div class="login-box">
+            <h2>محلات كريم لتأجير العدد اليدوية</h2>
+            <input type="password" id="password-input" placeholder="كلمة المرور">
+            <button onclick="checkPassword()" class="btn-primary">دخول</button>
+        </div>
+    </div>
+
+    <div id="main-app" class="screen">
+        <header>
+            <div id="network-status" class="network-status online">متصل</div>
+            <h1>نظام تأجير كريم</h1>
+        </header>
+
+        <main id="app-content">
+            
+            <section id="tab-customers" class="tab-content active">
+                <div id="customers-main-view">
+                    <div class="top-actions">
+                        <button onclick="openModal('addCustomerModal')" class="btn-primary">إضافة زبون جديد +</button>
+                    </div>
+                    
+                    <input type="text" id="search-customer" placeholder="بحث عن زبون (من أول حرف)..." onkeyup="searchCustomer()" style="border-color: #27ae60;">
+
+                    <div id="customers-list" class="list-container">
+                        </div>
+                </div>
+
+                <div id="customer-details-view" style="display: none;">
+                    <button onclick="backToCustomers()" class="btn-secondary">رجوع</button>
+                    <h2 id="detail-customer-name" style="margin-top: 10px;">اسم الزبون</h2>
+                    <a id="detail-customer-phone" href="" style="display:block; text-align:center; margin-bottom: 15px; color: #2980b9; text-decoration: none; font-weight: bold; direction: ltr;"></a>
+                    <div class="balance-card">
+                        <p>الباقي الكلي:</p>
+                        <h3 id="detail-customer-balance">0 دينار عراقي</h3>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn-success" onclick="openModal('paymentModal')">تسديد</button>
+                        <button class="btn-primary" onclick="openRentModal()">بيع (تأجير)</button>
+                    </div>
+                    <h3 style="margin: 15px 0;">المعاملات</h3>
+                    <div id="transactions-list" class="list-container">
+                        </div>
+                </div>
+            </section>
+
+            <section id="tab-inventory" class="tab-content">
+                <div class="top-actions">
+                    <button onclick="openModal('addItemModal')" class="btn-primary">إضافة مادة +</button>
+                </div>
+                
+                <input type="text" id="search-inventory" placeholder="بحث عن مادة (اكتب بداية اسم المادة)..." onkeyup="searchInventory()">
+
+                <div class="inventory-selectors">
+                    <button onclick="switchInventory(1)" id="btn-inv-1" class="active">المخزون 1</button>
+                    <button onclick="switchInventory(2)" id="btn-inv-2">المخزون 2</button>
+                </div>
+                <div id="inventory-list" class="list-container">
+                    </div>
+            </section>
+
+            <section id="tab-alerts" class="tab-content">
+                <h2 style="margin-bottom: 15px;">التنبيهات (متجاوزي المدة)</h2>
+                <div id="alerts-list" class="list-container">
+                    </div>
+            </section>
+
+        </main>
+
+        <nav class="bottom-nav">
+            <button onclick="switchTab('tab-customers')" class="nav-btn active" id="nav-customers">الزبائن</button>
+            <button onclick="switchTab('tab-inventory')" class="nav-btn" id="nav-inventory">المخزون</button>
+            <button onclick="switchTab('tab-alerts')" class="nav-btn" id="nav-alerts">التنبيهات</button>
+        </nav>
+    </div>
+
+    <div id="addItemModal" class="modal">
+        <div class="modal-content">
+            <h3>إضافة مادة للمخزون <span id="current-inv-label">1</span></h3>
+            <input type="text" id="item-name" placeholder="اسم المادة">
+            <input type="number" id="item-price" placeholder="سعر المادة (يومياً)">
+            <input type="number" id="item-qty" placeholder="الكمية">
+            <div class="modal-actions">
+                <button onclick="saveItem()" class="btn-primary">حفظ</button>
+                <button onclick="closeModal('addItemModal')" class="btn-secondary">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="editItemModal" class="modal">
+        <div class="modal-content">
+            <h3>تعديل المادة</h3>
+            <input type="hidden" id="edit-item-id">
+            <input type="hidden" id="edit-item-inv">
+            <input type="text" id="edit-item-name" placeholder="اسم المادة">
+            <input type="number" id="edit-item-price" placeholder="سعر المادة (يومياً)">
+            <input type="number" id="edit-item-qty" placeholder="الكمية">
+            <div class="modal-actions">
+                <button onclick="saveEditItem()" class="btn-primary">حفظ التعديلات</button>
+                <button onclick="closeModal('editItemModal')" class="btn-secondary">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="addCustomerModal" class="modal">
+        <div class="modal-content">
+            <h3>إضافة زبون جديد</h3>
+            <input type="text" id="cust-name" placeholder="اسم الزبون">
+            <div class="input-group">
+                <span class="country-code">+964</span>
+                <input type="number" id="cust-phone" placeholder="77... أو 78..." style="margin-bottom: 0;">
+            </div>
+            <div class="modal-actions" style="margin-top: 15px;">
+                <button onclick="saveCustomer()" class="btn-primary">حفظ</button>
+                <button onclick="closeModal('addCustomerModal')" class="btn-secondary">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="editCustomerModal" class="modal">
+        <div class="modal-content">
+            <h3>تعديل الزبون</h3>
+            <input type="hidden" id="edit-cust-id">
+            <input type="text" id="edit-cust-name" placeholder="اسم الزبون">
+            <div class="input-group">
+                <span class="country-code">+964</span>
+                <input type="number" id="edit-cust-phone" placeholder="رقم الهاتف بدون مفتاح الدولة" style="margin-bottom: 0;">
+            </div>
+            <div class="modal-actions" style="margin-top: 15px;">
+                <button onclick="saveEditCustomer()" class="btn-primary">حفظ التعديلات</button>
+                <button onclick="closeModal('editCustomerModal')" class="btn-secondary">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="rentModal" class="modal">
+        <div class="modal-content modal-large">
+            <h3>تأجير جديد</h3>
+            
+            <div class="inventory-selectors" style="margin-bottom: 15px; margin-top: 10px;">
+                <button onclick="changeRentInventory(1)" id="btn-rent-inv-1" class="active">المخزون 1</button>
+                <button onclick="changeRentInventory(2)" id="btn-rent-inv-2">المخزون 2</button>
+            </div>
+
+            <div id="rent-items-container">
+                </div>
+            <button onclick="addRentItemRow()" class="btn-secondary" style="margin-bottom: 15px; width: 100%;">+ إضافة مادة أخرى</button>
+            
+            <input type="number" id="rent-paid" placeholder="المبلغ المدفوع (عربون مقدم إن وجد)">
+            
+            <div class="modal-actions">
+                <button onclick="saveRentalTransaction()" class="btn-primary">حفظ المعاملة</button>
+                <button onclick="closeModal('rentModal')" class="btn-secondary">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <h3>تسديد مبلغ</h3>
+            <input type="number" id="payment-amount" placeholder="المبلغ المسدد">
+            <div class="modal-actions">
+                <button onclick="savePayment()" class="btn-primary">حفظ</button>
+                <button onclick="closeModal('paymentModal')" class="btn-secondary">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="editTransactionModal" class="modal">
+        <div class="modal-content">
+            <h3>تعديل المعاملة</h3>
+            <input type="hidden" id="edit-trans-id">
+            
+            <label style="display:block; margin-bottom:5px; font-weight:bold;">المواد (نص):</label>
+            <input type="text" id="edit-trans-items">
+            
+            <label style="display:block; margin-bottom:5px; font-weight:bold;">التاريخ:</label>
+            <input type="date" id="edit-trans-date">
+            
+            <label style="display:block; margin-bottom:5px; font-weight:bold;">الوقت:</label>
+            <input type="time" id="edit-trans-time">
+            
+            <label style="display:block; margin-bottom:5px; font-weight:bold;">عدد الأيام:</label>
+            <input type="number" id="edit-trans-days" oninput="updateEditTotal()">
+            
+            <label style="display:block; margin-bottom:5px; font-weight:bold;">المبلغ الكلي:</label>
+            <input type="number" id="edit-trans-total">
+            
+            <label style="display:block; margin-bottom:5px; font-weight:bold;">المدفوع من الفاتورة:</label>
+            <input type="number" id="edit-trans-paid">
+            
+            <div class="modal-actions">
+                <button onclick="saveEditTransaction()" class="btn-primary">حفظ التعديلات</button>
+                <button onclick="closeModal('editTransactionModal')" class="btn-secondary">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="returnModal" class="modal">
+        <div class="modal-content modal-large">
+            <h3>تسوية وإرجاع</h3>
+            <input type="hidden" id="return-trans-id">
+            <div id="return-items-container"></div>
+            <h4 style="margin-top: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px;">سجل الإرجاعات</h4>
+            <div id="return-history-container" style="margin-top: 10px; max-height: 150px; overflow-y: auto;"></div>
+            <div class="modal-actions" style="margin-top: 15px;">
+                <button onclick="closeModal('returnModal')" class="btn-secondary">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
