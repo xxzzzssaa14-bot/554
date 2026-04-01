@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kareem-cache-v2';
+const CACHE_NAME = 'kareem-cache-v3';
 const urlsToCache = [
     './',
     './index.html',
@@ -19,7 +19,12 @@ self.addEventListener('install', event => {
 self.addEventListener('fetch', event => {
     event.respondWith(
         caches.match(event.request).then(response => {
-            return response || fetch(event.request);
+            return response || fetch(event.request).catch(() => {
+                // في حالة انقطاع الإنترنت وإعادة تحميل الصفحة
+                if (event.request.mode === 'navigate') {
+                    return caches.match('./index.html');
+                }
+            });
         })
     );
 });
