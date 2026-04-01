@@ -31,6 +31,7 @@
     <div id="main-app" class="screen">
         <header>
             <div id="network-status" class="network-status online">متصل</div>
+            <button onclick="toggleDarkMode()" style="position: absolute; right: 15px; top: 10px; background: transparent; border: none; font-size: 22px; box-shadow: none; cursor: pointer;">🌓</button>
             <h1>نظام تأجير كريم</h1>
         </header>
 
@@ -167,6 +168,9 @@
             <div id="rent-items-container">
                 </div>
             <button onclick="addRentItemRow()" class="btn-secondary" style="margin-bottom: 15px; width: 100%;">+ إضافة مادة أخرى</button>
+            
+            <label style="display:block; margin-bottom:5px; font-weight:bold;">عدد الأيام (مدة التأجير):</label>
+            <input type="number" id="rent-days" placeholder="عدد الأيام" value="1" min="1">
             
             <input type="number" id="rent-paid" placeholder="المبلغ المدفوع (عربون مقدم إن وجد)">
             
