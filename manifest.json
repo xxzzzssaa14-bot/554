@@ -1,11 +1,12 @@
+// manifest.json
 {
   "name": "نظام تأجير كريم",
   "short_name": "تأجير كريم",
   "id": "/",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#f0f3f5",
-  "theme_color": "#2c3e50",
+  "background_color": "#f39c12",
+  "theme_color": "#d35400",
   "orientation": "portrait",
   "icons": [
     {
